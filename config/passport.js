@@ -1,0 +1,1 @@
+//Passport configuration for google oauth2.0
