@@ -1,5 +1,6 @@
 //Passport configuration for google oauth2.0
-const googleStrategy = require("passport-google-oauth20").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const mongoose = require("mongoose");
 const keys = require("./keys");
 
 //Bring in the user model
@@ -8,11 +9,11 @@ const { User } = require("./../models/user");
 //define our strategy
 module.exports = passport => {
   passport.use(
-    new googleStrategy(
+    new GoogleStrategy(
       {
         clientID: keys.googleClientID,
         clientSecret: keys.googleClientSecret,
-        callbackURL: "auth/google/callback",
+        callbackURL: "http://localhost:3000/auth/google/callback",
         proxy: true
       },
       (accessToken, refreshToken, profile, done) => {
