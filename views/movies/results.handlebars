@@ -1,0 +1,20 @@
+<h1>Search Results</h1>
+<div class="row">
+  {{#each movieData.Search}}
+  <div class="col s12 m3">
+    <div class="card large">
+      <div class="card-image">
+        <img src="{{Poster}}">
+        <span class="card-title">{{Title}}</span>
+      </div>
+      <div class="card-content center-align">
+        <p>{{Title}}</p>
+        <p>{{Year}}</p>
+      </div>
+      <div class="card-action center">
+        <a href="/show/{{imdbID}}" class="btn red center">select</a>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
