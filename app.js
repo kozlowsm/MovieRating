@@ -6,6 +6,7 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
+const axios = require("axios");
 const path = require("path");
 
 //Bring in connection and models
@@ -18,6 +19,7 @@ require("./config/passport")(passport);
 //Bring in our routes
 const index = require("./routes/index");
 const auth = require("./routes/auth");
+const movie = require("./routes/movie");
 
 //Initiate Express Application
 const app = express();
@@ -57,6 +59,7 @@ app.use((req, res, next) => {
 //use our routes
 app.use("/", index);
 app.use("/auth", auth); //any request that begins with /auth, use this route
+app.use("/movie", movie);
 
 //Listen for connections
 app.listen(port, () => {
