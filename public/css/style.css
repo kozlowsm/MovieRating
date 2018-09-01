@@ -8,6 +8,10 @@ main {
   flex: 1 0 auto;
 }
 
+.search-posters {
+  height: 300px;
+}
+
 /* .card-image {
   height: 400px;
 } */
