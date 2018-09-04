@@ -28,6 +28,21 @@ router.get("/search", (req, res) => {
     });
 });
 
+router.get("/show/:id", (req, res) => {
+  let movieID = req.params.id;
+  axios
+    .get(`${omdbURL}${keys.omdbKey}&i=${movieID}`)
+    .then(movie => {
+      if (!movie.data.Response) return res.status(400).send("Invalid movie ID");
+      let movieData = movie.data;
+      console.log(movieData);
+      res.render("movies/show", { movieData });
+    })
+    .catch(err => {
+      res.status(400).send("Oops, something went wrong.");
+    });
+});
+
 function fetchMetaData(movieTitle) {
   let pagesRequired = 0;
   axios
