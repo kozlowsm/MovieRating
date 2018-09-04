@@ -1,7 +1,7 @@
 <h1>Search Results</h1>
 <div class="row">
   {{#each movieData.Search}}
-  <div class="col s12 m3">
+  <div class="col s12 m6 l3">
     <div class="card large">
       <div class="card-image">
         <img src="{{Poster}}" class="search-posters">
@@ -12,7 +12,7 @@
         <p>{{Year}}</p>
       </div>
       <div class="card-action center">
-        <a href="/show/{{imdbID}}" class="btn grey darken-1 center">select</a>
+        <a href="/movie/show/{{imdbID}}" class="btn grey darken-1 center">Rate!</a>
       </div>
     </div>
   </div>
