@@ -11,6 +11,8 @@ router.get("/search", (req, res) => {
   let movieTitle = req.query.movieTitle;
 
   //search api with user movie title
+  fetchPages(movieTitle);
+
   axios
     .get(`${omdbURL}${keys.omdbKey}&s=${movieTitle}&type=movie`)
     .then(movies => {
@@ -31,7 +33,7 @@ router.get("/search", (req, res) => {
 router.get("/show/:id", (req, res) => {
   let movieID = req.params.id;
   axios
-    .get(`${omdbURL}${keys.omdbKey}&i=${movieID}`)
+    .get(`${omdbURL}${keys.omdbKey}&i=${movieID}&plot=full`)
     .then(movie => {
       if (!movie.data.Response) return res.status(400).send("Invalid movie ID");
       let movieData = movie.data;
@@ -42,6 +44,31 @@ router.get("/show/:id", (req, res) => {
       res.status(400).send("Oops, something went wrong.");
     });
 });
+
+//takes the title of the movie to search and the number of pages you want to return
+function fetchPages(movieTitle) {
+  let pagesRequired = 0;
+  let omdbResponse = await axios.get(
+    `${omdbURL}${keys.omdbKey}&s=${movieTitle}&type=movie`
+  );
+  pagesRequired = Math.ceil(omdbResponse.data.totalResults / 10);
+  const apiPromises = [];
+  if (pagesRequired > 1) {
+    for (let i = 0; i <= 2; i++) {
+      apiPromises.push(
+        axios.get(
+          `${omdbURL}${keys.omdbKey}&s=${movieTitle}&type=movie&page=${i}`
+        )
+      );
+    }
+    Promise.all(apiPromises)
+      .then(results => {
+        results.forEach(result => {
+          console.log(result);
+        });
+      });
+  }
+}
 
 function fetchMetaData(movieTitle) {
   let pagesRequired = 0;
@@ -66,12 +93,6 @@ function fetchMetaData(movieTitle) {
           });
 
           return processedResponses;
-          // const movieData = [];
-          // processedResponses.forEach(response => {
-          //   movieData.concat(response.data.Search);
-          //   console.log(response.data.Search);
-          // });
-          // console.log(movieData);
         });
       }
     });
