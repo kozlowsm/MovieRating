@@ -37,7 +37,7 @@ app.set("view engine", "handlebars");
 //initialize cookie parser
 app.use(cookieParser());
 
-//setup session
+//setup session for use with passport
 app.use(
   session({
     secret: "somethingFunky",
