@@ -1,29 +1,48 @@
 <div class="row">
-  <div class="col s12 m12 l8">
-    <h1>{{movieData.Title}}</h1>
-    <img class="center" src="{{movieData.Poster}}">
-    <p>{{movieData.Plot}}</p>
-    <p>{{movieData.Year}}</p>
-    <p>{{movieData.Rated}}</p>
-    <p>{{movieData.Genre}}</p>
+  <div class="col s12 m12 l7 left movie-box">
+    <h2 class="center">{{movieData.Title}}</h2>
+    <div class="col s12 m12 l6">
+      <img class="center" src="{{movieData.Poster}}">
+    </div>
+    <div class="col s12 l6">
+      <p>{{movieData.Plot}}</p>
+      <p>
+        <ul>
+          <li><span class="movie-details">Year:</span> {{movieData.Year}}</li>
+          <li><span class="movie-details">Rated:</span> {{movieData.Rated}}</li>
+          <li><span class="movie-details">Runtime:</span> {{movieData.Runtime}}</li>
+          <li><span class="movie-details">Genre:</span> {{movieData.Genre}}</li>
+          <li><span class="movie-details">Director:</span> {{movieData.Director}}</li>
+          <li><span class="movie-details">Stars:</span> {{movieData.Actors}}</li>
+        </ul>
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+
+      </div>
+    </div>
   </div>
-  <form class="col s12 m12 l4">
-    <h1>Rate</h1>
-    <form action="" method="POST">
+
+
+
+
+
+  <div class="col s12 m12 l4 right rating-box">
+    <form action="/movie/rate/{{movieData.imdbID}}" method="POST">
+      <h2>Rate</h2>
       <div class="row">
         <div class="input-field col s12">
-          <p class="range-field">
-            <input type="range" id="rating" min="1" max="10" />
-            <label for="rating">Rate</label>
-          </p>
+          <input type="text" id="rating" placeholder="Rating" name="rating">
+          <label for="rating">Rating</label>
         </div>
         <div class="input-field col s12">
+          Comment:
           <textarea name="comment" id="comment"></textarea>
           <label for="comment"></label>
         </div>
       </div>
       <button type="submit" class="btn red darken-1">Rate</button>
     </form>
-</div>
-</div>
-</div>
+  </div>
