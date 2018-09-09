@@ -8,25 +8,25 @@ const MovieSchema = new mongoose.Schema({
   imdbRating: {
     type: String
   },
-  rottenRating: {
-    type: String
-  },
   runTime: {
     type: String
   },
-  Rating: {
+  rating: {
     type: String
   },
   poster: {
     type: String
   },
-  actors: [
-    {
-      name: {
-        type: String
-      }
-    }
-  ]
+  genre: {
+    type: String
+  },
+  actors: {
+    type: String
+  },
+  imdbID: {
+    type: String,
+    unique: true
+  }
 });
 
 const Movie = mongoose.model("Movie", MovieSchema);
