@@ -12,6 +12,20 @@ main {
   height: 300px;
 }
 
+.movie-details {
+  font-weight: bold;
+  line-height: 30px;
+}
+
+.movie-box {
+  /* border: solid black 1px; */
+  margin-top: 30px;
+}
+
+.rating-box {
+  margin-top: 30px;
+}
+
 /* .card-image {
   height: 400px;
 } */
