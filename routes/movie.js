@@ -3,6 +3,10 @@ const axios = require("axios");
 const keys = require("./../config/keys");
 router = express.Router();
 
+//auth helper
+const { ensureAuthenticated } = require("./../helpers/auth");
+
+//mongo models
 const { Movie } = require("./../models/movie");
 const { Rating } = require("./../models/rating");
 
@@ -12,6 +16,7 @@ const omdbURL = "https://www.omdbapi.com/?apikey=";
 router.get("/search", (req, res) => {
   //get the movie title from the user
   let movieTitle = req.query.movieTitle;
+  console.log(movieTitle);
 
   let processed = [];
 
@@ -23,22 +28,25 @@ router.get("/search", (req, res) => {
       });
     })
     .catch(err => console.log(err)); */
+  if (movieTitle) {
+    axios
+      .get(`${omdbURL}${keys.omdbKey}&s=${movieTitle}&type=movie`)
+      .then(movies => {
+        //maybe flash a message and redirect back to search page/dashboard
+        //console.log(movies);
+        if (!movies.data.Response)
+          return res.status(400).send("No movies found.");
 
-  axios
-    .get(`${omdbURL}${keys.omdbKey}&s=${movieTitle}&type=movie`)
-    .then(movies => {
-      //maybe flash a message and redirect back to search page/dashboard
-      //console.log(movies);
-      if (!movies.data.Response)
-        return res.status(400).send("No movies found.");
-
-      let movieData = movies.data;
-      //console.log(movieData);
-      res.render("movies/results", { movieData });
-    })
-    .catch(err => {
-      res.status(400).send("Oops, something went wrong.");
-    });
+        let movieData = movies.data;
+        console.log(movieData);
+        res.render("movies/results", { movieData });
+      })
+      .catch(err => {
+        res.status(400).send("Oops, something went wrong.");
+      });
+  } else {
+    res.render("movies/results");
+  }
 });
 
 //show the specific movie and add its details to the database
@@ -50,6 +58,7 @@ router.get("/show/:id", (req, res) => {
       if (!movie.data.Response) return res.status(400).send("Invalid movie ID");
       let movieData = movie.data;
 
+      //add conditional to check if movie already in db
       let movieInfo = new Movie({
         title: movie.data.Title,
         imdbRating: movie.data.imdbRating,
@@ -71,7 +80,7 @@ router.get("/show/:id", (req, res) => {
 });
 
 //Rating Post route - sends user rating to the database
-router.post("/rate/:id", (req, res) => {
+router.post("/rate/:id", ensureAuthenticated, (req, res) => {
   let movieID = req.params.id;
   //Get the rating info from the user
   let userRating = req.body.rating; //add validation later!
