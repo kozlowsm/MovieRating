@@ -1,10 +1,11 @@
 //Bring in mongoose module
 const mongoose = require("mongoose");
+const keys = require("./../config/keys");
 
 //Create the connection between the app and the local db
 mongoose
   .connect(
-    "mongodb://127.0.0.1:27017/movieRating-dev",
+    keys.mongoURI,
     {
       useNewUrlParser: true
     }
